@@ -1,0 +1,1450 @@
+{
+  "name": "Doc to Google Form Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.5,
+      "position": [
+        -784,
+        80
+      ],
+      "id": "1faa5025-9e6b-427e-9860-346204c5c082",
+      "name": "Telegram Trigger",
+      "webhookId": "9648439d-3aa8-459f-a5e3-c7d86a434c48",
+      "credentials": {
+        "telegramApi": {
+          "id": "5ljMqBExAewjAp7S",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Дані видалено",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        448
+      ],
+      "id": "3e50c3c7-fc63-4fa5-afb0-390916ab8a50",
+      "name": "Reply after data clear",
+      "webhookId": "940b591e-6cbc-417b-a03f-398ea9f4a2f8",
+      "credentials": {
+        "telegramApi": {
+          "id": "5ljMqBExAewjAp7S",
+          "name": "Telegram account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "6b0efdc5-fe93-4fbc-a7ef-7071d970d960",
+                    "leftValue": "={{ $json.key }}",
+                    "rightValue": "cmd:/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Start Work"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "eeb6c3bd-efab-42df-9e8d-4ef9b09d623e",
+                    "leftValue": "={{ $json.key }}",
+                    "rightValue": "cmd:/set_email",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Setup Email"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "cf077d77-132d-4dd3-be11-b50ad1695379",
+                    "leftValue": "={{ $json.key }}",
+                    "rightValue": "start:save",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Save Email"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "d6f6c74e-7c71-4271-850e-f7e9cbe67de5",
+                    "leftValue": "={{ $json.key }}",
+                    "rightValue": "cmd:/new",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "New Quiz: Start & Ask Email"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "13ce256b-5fb5-4cab-8c5f-2e74afa2cac6",
+                    "leftValue": "={{ $json.key }}",
+                    "rightValue": "new:ask_info",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "New Quiz: Ask Quiz Info"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "d29d5661-afa0-4809-9652-e9553281fa66",
+                    "leftValue": "={{ $json.key }}",
+                    "rightValue": "cmd:/reset",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reset data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.5,
+      "position": [
+        560,
+        16
+      ],
+      "id": "0ecb86e6-960c-4249-a0a1-8ef337d694b2",
+      "name": "Top Commands Switch"
+    },
+    {
+      "parameters": {
+        "operation": "rowExists",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DlxPX5G1pVPOGHrK",
+          "mode": "list",
+          "cachedResultName": "quiz_sessions",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/DlxPX5G1pVPOGHrK"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        448
+      ],
+      "id": "ce93aaf2-696d-45d8-9f7f-c443abab75df",
+      "name": "If row exists",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## Removing data for current chat",
+        "height": 256,
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        368
+      ],
+      "typeVersion": 1,
+      "id": "56bd5ef7-dd3b-44dc-a425-f051ef63fe36",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DlxPX5G1pVPOGHrK",
+          "mode": "list",
+          "cachedResultName": "quiz_sessions",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/DlxPX5G1pVPOGHrK"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.chat.id }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        112,
+        80
+      ],
+      "id": "6c21ad9e-3d25-4d4f-9027-5ade0485ee9c",
+      "name": "Get current chat record",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const TEXTS = {\n  en: {\n    ask_email: 'Enter your email',\n    confirm_email_set: 'Your email is stored for further operations',\n    ask_info: 'Enter the name for new test and attach .docx file',\n    group_field_title: 'Class Name',\n    fullname_field_title: 'Full Name',\n    test_created: 'successfully created',\n    form_link: 'Form',\n    spreadsheet_link: 'Results',\n    error: 'Something went wrong. Try again.',\n  },\n  uk: {\n    ask_email: 'Вкажіть свій Email',\n    confirm_email_set: 'Ваш Email збережно для подальшої роботи',\n    ask_info: 'Вкажіть назву тесту та додйте файл .docx',\n    group_field_title: 'Назва групи',\n    fullname_field_title: 'Повне імʼя (ПІП)',\n    test_created: 'успішно створено',\n    form_link: 'Тест',\n    spreadsheet_link: 'Результати',\n    error: 'Щось пішло не так. Спробуйте знову.',\n  }\n};\n\nconst DEFAULT = 'en';\n\nreturn $input.all().map(item => {\n  const from = item.json.message?.from ?? item.json.callback_query?.from ?? {};\n  const code = (from.language_code ?? '').toLowerCase().split('-')[0]; // pt-br -> pt\n  const lang = TEXTS[code] ? code : DEFAULT;\n  const t = { ...TEXTS[DEFAULT], ...TEXTS[lang] }; // недостающие ключи берутся из en\n\n  // подстановка {name} сразу\n  const name = from.first_name ?? '';\n  for (const k in t) t[k] = t[k].replace('{name}', name);\n\n  return { json: { ...item.json, lang, t } };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -560,
+        80
+      ],
+      "id": "2a1b737f-7f09-45c5-9af0-42cbc801dbb8",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "2LGM3xDYnDo4ymxi",
+          "mode": "list",
+          "cachedResultName": "user_emails",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/2LGM3xDYnDo4ymxi"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "username",
+              "keyValue": "={{ $json.message.chat.username }}"
+            }
+          ]
+        },
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -336,
+        80
+      ],
+      "id": "b41e8663-8b3a-4010-bcb4-ef8f962502d0",
+      "name": "Get email by username",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "10414a0c-450c-4de2-bebb-20a9ac209364",
+              "name": "username",
+              "value": "={{ $json.username || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "28f9c4ca-1e57-4e26-909e-75cf896038d3",
+              "name": "email",
+              "value": "={{ $json.email || '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -112,
+        80
+      ],
+      "id": "ef6bab84-18ba-41de-b586-6fd1680d4be4",
+      "name": "Prepare User Data"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11dd3987-e927-4ca9-a9f8-6117f6b25876",
+              "name": "chat_id",
+              "value": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "f351e380-dc63-4d35-bd97-02c7ea36520c",
+              "name": "message",
+              "value": "={{ $('Telegram Trigger').item.json.message.text || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "355e2e01-e38a-4876-aca1-7a3d7e6ef77b",
+              "name": "state",
+              "value": "={{ $json.state || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "d5136228-5aa9-4ae7-b0d0-5565ebc923ba",
+              "name": "command",
+              "value": "={{ $json.command || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "67c365d7-18be-4a8b-b2bb-642de63c5563",
+              "name": "data",
+              "value": "={{ $json.data ? JSON.parse($json.data) : {} }}",
+              "type": "object"
+            },
+            {
+              "id": "b21af2f5-95d6-4f08-a8eb-3ce7c72245d5",
+              "name": "key",
+              "value": "={{ ($('Telegram Trigger').item.json.message.text || '').startsWith('/')\n  ? 'cmd:' + $('Telegram Trigger').item.json.message.text.split(' ')[0].split('@')[0]\n  : ($json.state ? $json.command + ':' + $json.state : '') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        336,
+        80
+      ],
+      "id": "20cc2048-0cac-4c87-a9d7-9e783a305829",
+      "name": "Prepare Session Data"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "={{ $('Code in JavaScript').item.json.t.ask_email }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        976,
+        -400
+      ],
+      "id": "adb505de-2bcc-4551-affe-a99b65320e94",
+      "name": "Ask Email",
+      "webhookId": "86d4d424-e3af-4ad2-9279-90f38443d608",
+      "credentials": {
+        "telegramApi": {
+          "id": "5ljMqBExAewjAp7S",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DlxPX5G1pVPOGHrK",
+          "mode": "list",
+          "cachedResultName": "quiz_sessions",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/DlxPX5G1pVPOGHrK"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "keyValue": "={{ $json.chat_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "chat_id": "={{ $json.chat_id }}",
+            "message": "={{ $json.message }}",
+            "command": "=start",
+            "state": "=save",
+            "data": "={{ JSON.stringify($json.data) }}",
+            "key": "=start:save"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "key",
+              "displayName": "key",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        -400
+      ],
+      "id": "f414881e-cc67-4027-afa6-c0ca551cffbb",
+      "name": "PresaveStartData"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "2LGM3xDYnDo4ymxi",
+          "mode": "list",
+          "cachedResultName": "user_emails",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/2LGM3xDYnDo4ymxi"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "username",
+              "keyValue": "={{ $('Telegram Trigger').item.json.message.from.username }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "username": "={{ $('Telegram Trigger').item.json.message.from.username }}",
+            "email": "={{ $('Telegram Trigger').item.json.message.text }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "username",
+              "displayName": "username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        816,
+        -240
+      ],
+      "id": "f07aa55a-7a4c-44dc-89d7-5a7603e2b6ae",
+      "name": "Save User"
+    },
+    {
+      "parameters": {
+        "operation": "deleteRows",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DlxPX5G1pVPOGHrK",
+          "mode": "list",
+          "cachedResultName": "quiz_sessions",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/DlxPX5G1pVPOGHrK"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "keyValue": "={{ $('Get current chat record').item.json.chat_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        976,
+        -240
+      ],
+      "id": "131a4228-fbc3-4bbf-83b1-8366c852e22c",
+      "name": "Delete row(s)"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "={{ $('Code in JavaScript').item.json.t.confirm_email_set }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1136,
+        -240
+      ],
+      "id": "b616a073-eab1-4f80-87bf-7142a44c333e",
+      "name": "Send Approval",
+      "webhookId": "86d4d424-e3af-4ad2-9279-90f38443d608",
+      "credentials": {
+        "telegramApi": {
+          "id": "5ljMqBExAewjAp7S",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Registering user's email",
+        "height": 368,
+        "width": 504
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        768,
+        -448
+      ],
+      "typeVersion": 1,
+      "id": "b1da4c71-3e3e-461a-80f5-7ff65772ebfc",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Creating quiz",
+        "height": 656,
+        "width": 1120,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        848,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "f62b137f-8a1f-469f-ab95-3857be464585",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DlxPX5G1pVPOGHrK",
+          "mode": "list",
+          "cachedResultName": "quiz_sessions",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/DlxPX5G1pVPOGHrK"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "keyValue": "={{ $('Prepare Session Data').item.json.chat_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "chat_id": "={{ $json.chat_id }}",
+            "message": "={{ $json.message }}",
+            "command": "=new",
+            "state": "=ask_info",
+            "data": "={{ JSON.stringify($json.data) }}",
+            "key": "=new:ask_info"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "chat_id",
+              "displayName": "chat_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "key",
+              "displayName": "key",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        896,
+        16
+      ],
+      "id": "aa52f3f0-084a-4609-9b0b-18c91a9519ec",
+      "name": "PresaveNewQuizData"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chat_id }}",
+        "text": "={{ $('Code in JavaScript').item.json.t.ask_info }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        16
+      ],
+      "id": "36ade200-9968-4539-9ec1-347678328f76",
+      "name": "Ask Quiz Info",
+      "webhookId": "86d4d424-e3af-4ad2-9279-90f38443d608",
+      "credentials": {
+        "telegramApi": {
+          "id": "5ljMqBExAewjAp7S",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7af5af6e-f6dd-4e62-956c-d616717089ae",
+              "name": "quiz_name",
+              "value": "={{ $('Telegram Trigger').item.json.message.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "6f2c7f56-7767-43c7-97f0-375fad9cd2c6",
+              "name": "quiz_file_id",
+              "value": "={{ $('Telegram Trigger').item.json.message.document.file_id }}",
+              "type": "string"
+            },
+            {
+              "id": "cb188858-9b09-4b74-8b2b-7f34064908b3",
+              "name": "quiz_file_name",
+              "value": "={{ $('Telegram Trigger').item.json.message.caption.replace(/[\"']/g, '').replace(/[ -]+/g, '_') }}",
+              "type": "string"
+            },
+            {
+              "id": "2b194d71-5c80-49b3-b511-6b6cc0a4c3ea",
+              "name": "quiz_response_file_name",
+              "value": "={{ $('Telegram Trigger').item.json.message.caption.replace(/[\"']/g, '').replace(/[ -]+/g, '_') + '_Response' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        896,
+        192
+      ],
+      "id": "5f521060-9a73-4d4c-bdd2-82da7bdacf76",
+      "name": "PrepareQuizData"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.quiz_file_id }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1040,
+        192
+      ],
+      "id": "781551d5-085c-4549-a742-b946752ed0a1",
+      "name": "Get a file",
+      "webhookId": "5960778d-1eaa-4faa-a095-c7abae4a1d03",
+      "credentials": {
+        "telegramApi": {
+          "id": "5ljMqBExAewjAp7S",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://parser:8010/parse",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "={{ $binary.data }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1200,
+        192
+      ],
+      "id": "e3bd27b5-8742-4a32-9c19-3ac68a3bf42c",
+      "name": "Parse Quiz File"
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $('Parse Quiz File').first().json;\nconst blocks = Array.isArray(raw) ? raw : [raw];\nconst questions = blocks.flatMap(b => b.questions || []);\n\nconst requests = /** @type {any[]} */ ([{\n  updateSettings: {\n    settings: { quizSettings: { isQuiz: true } },\n    updateMask: 'quizSettings.isQuiz'\n  }\n}]);\n\nrequests.push({\n  createItem: {\n    item: {\n      title: $('Code in JavaScript').first().json.t.group_field_title,\n      questionItem: {\n        question: {\n          required: true,\n          textQuestion: {\n            paragraph: false\n          }\n        }\n      }\n    },\n    location: { index: 0 }\n  }\n});\n\nrequests.push({\n  createItem: {\n    item: {\n      title: $('Code in JavaScript').first().json.t.fullname_field_title,\n      questionItem: {\n        question: {\n          required: true,\n          textQuestion: {\n            paragraph: false\n          }\n        }\n      }\n    },\n    location: { index: 1 }\n  }\n});\n\nquestions.forEach((q, i) => {\n  requests.push({\n    createItem: {\n      item: {\n        title: q.text,\n        questionItem: {\n          question: {\n            required: true,\n            grading: {\n              pointValue: q.points,\n              correctAnswers: {\n                answers: q.options.filter(o => o.correct).map(o => ({ value: o.text }))\n              }\n            },\n            choiceQuestion: {\n              type: q.type === 'multiple' ? 'CHECKBOX' : 'RADIO',\n              options: q.options.map(o => ({ value: o.text }))\n            }\n          }\n        }\n      },\n      location: { index: i+2 }\n    }\n  });\n});\n\nreturn [{ json: { requests } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        192
+      ],
+      "id": "7110d3ef-e87c-46ee-bcd9-14ce5e5a7f5c",
+      "name": "Code in JavaScript1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://forms.googleapis.com/v1/forms",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"info\": {\n    \"title\": \"{{ $('PrepareQuizData').item.json.quiz_name }}\",\n    \"documentTitle\": \"{{ $('PrepareQuizData').item.json.quiz_file_name }}\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1376,
+        192
+      ],
+      "id": "817e43f5-dbaa-4f94-bf78-ceb6f3f3204c",
+      "name": "Create Form",
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "WMevybt8cku8RQ7o",
+          "name": "Google account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://forms.googleapis.com/v1/forms/{{ $('Create Form').item.json.formId }}:batchUpdate",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1776,
+        192
+      ],
+      "id": "b9aabca5-52ba-42cd-b104-715b40e4cedb",
+      "name": "Add Questions",
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "WMevybt8cku8RQ7o",
+          "name": "Google account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $('Create Form').item.json.formId }}/permissions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"type\": \"user\", \"role\": \"writer\", \"emailAddress\": \"{{ $('Prepare User Data').item.json.email }}\" }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1328,
+        432
+      ],
+      "id": "111618b0-f495-4226-9f14-8ac3ab5f6de8",
+      "name": "Share Form To User",
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "WMevybt8cku8RQ7o",
+          "name": "Google account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://script.googleapis.com/v1/scripts/AKfycbz6Pj2mTOd9cOi-LnWL5_1dBTq8rZtX-qgpuxvlMq76bVwj_Qj4oTS8TuYTRiSeSr1f:run",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \n  \"function\": \"linkFormToSheet\",\n  \"parameters\": [\"{{ $('Create Form').item.json.formId }}\", \"{{ $json.spreadsheetId }}\"],\n  \"devMode\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1152,
+        432
+      ],
+      "id": "7fb6f1d9-7a1b-4b12-8d1e-1f5bad6c0850",
+      "name": "Link Form and Spreadshet",
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "WMevybt8cku8RQ7o",
+          "name": "Google account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $('Create Responses Spreadsheet').item.json.spreadsheetId }}/permissions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"type\": \"user\", \"role\": \"writer\", \"emailAddress\": \"{{ $('Prepare User Data').item.json.email }}\" }",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1504,
+        432
+      ],
+      "id": "69ec027f-3a29-4a44-8a02-0c02d425e56e",
+      "name": "Share Spreadsheet To User",
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "WMevybt8cku8RQ7o",
+          "name": "Google account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://sheets.googleapis.com/v4/spreadsheets",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \n  \"properties\": { \n    \"title\": \"{{ $('PrepareQuizData').item.json.quiz_response_file_name }}\" \n  } \n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        976,
+        432
+      ],
+      "id": "3afba9c0-39c4-4970-ac80-051ed760718d",
+      "name": "Create Responses Spreadsheet",
+      "credentials": {
+        "googleOAuth2Api": {
+          "id": "WMevybt8cku8RQ7o",
+          "name": "Google account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "deleteRows",
+        "dataTableId": {
+          "__rl": true,
+          "value": "DlxPX5G1pVPOGHrK",
+          "mode": "list",
+          "cachedResultName": "quiz_sessions",
+          "cachedResultUrl": "/projects/m09ZGXxuKXM6bzsm/datatables/DlxPX5G1pVPOGHrK"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "chat_id",
+              "keyValue": "={{ $('Prepare Session Data').item.json.chat_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1840,
+        432
+      ],
+      "id": "e65c9bf9-a651-473a-b25f-9d2a7059ec22",
+      "name": "Clear Data"
+    },
+    {
+      "parameters": {
+        "operation": "sendRichMessage",
+        "chatId": "={{ $('Prepare Session Data').item.json.chat_id }}",
+        "richFormat": "markdown",
+        "richMessageText": "=### \"{{ $('PrepareQuizData').item.json.quiz_name }}\" {{ $('Code in JavaScript').item.json.t.test-created }}\n{{ $('Code in JavaScript').item.json.t.form_link }} -  {{ $('Create Form').item.json.responderUri }}\\\n\\\n{{ $('Code in JavaScript').item.json.t.spreadsheet_link }} - {{ $('Create Responses Spreadsheet').item.json.spreadsheetUrl }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1680,
+        432
+      ],
+      "id": "3ca0b00f-6307-4a0b-ba3f-54c878c85efc",
+      "name": "Send result message",
+      "webhookId": "063fd93b-c3b8-40e1-b8e9-da91a42a381e",
+      "credentials": {
+        "telegramApi": {
+          "id": "5ljMqBExAewjAp7S",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Top Commands Switch": {
+      "main": [
+        [
+          {
+            "node": "PresaveStartData",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PresaveStartData",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save User",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PresaveNewQuizData",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "PrepareQuizData",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If row exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If row exists": {
+      "main": [
+        [
+          {
+            "node": "Reply after data clear",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get current chat record": {
+      "main": [
+        [
+          {
+            "node": "Prepare Session Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Get email by username",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get email by username": {
+      "main": [
+        [
+          {
+            "node": "Prepare User Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare User Data": {
+      "main": [
+        [
+          {
+            "node": "Get current chat record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Session Data": {
+      "main": [
+        [
+          {
+            "node": "Top Commands Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PresaveStartData": {
+      "main": [
+        [
+          {
+            "node": "Ask Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save User": {
+      "main": [
+        [
+          {
+            "node": "Delete row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete row(s)": {
+      "main": [
+        [
+          {
+            "node": "Send Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PresaveNewQuizData": {
+      "main": [
+        [
+          {
+            "node": "Ask Quiz Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PrepareQuizData": {
+      "main": [
+        [
+          {
+            "node": "Get a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a file": {
+      "main": [
+        [
+          {
+            "node": "Parse Quiz File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Quiz File": {
+      "main": [
+        [
+          {
+            "node": "Create Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript1": {
+      "main": [
+        [
+          {
+            "node": "Add Questions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Form": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add Questions": {
+      "main": [
+        [
+          {
+            "node": "Create Responses Spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Share Form To User": {
+      "main": [
+        [
+          {
+            "node": "Share Spreadsheet To User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Link Form and Spreadshet": {
+      "main": [
+        [
+          {
+            "node": "Share Form To User",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Responses Spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Link Form and Spreadshet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Share Spreadsheet To User": {
+      "main": [
+        [
+          {
+            "node": "Send result message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send result message": {
+      "main": [
+        [
+          {
+            "node": "Clear Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "7fb083cc-1599-4b32-a44a-3eedc0431cdb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "92115584ea186c1fd08add997c6d2f83e16166b1a9b3936c309604d9d7e03e6a"
+  },
+  "nodeGroups": [],
+  "id": "kxUxKITt1knqUaqi",
+  "tags": []
+}

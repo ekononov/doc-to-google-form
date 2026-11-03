@@ -1120,7 +1120,7 @@
         "operation": "sendRichMessage",
         "chatId": "={{ $('Prepare Session Data').item.json.chat_id }}",
         "richFormat": "markdown",
-        "richMessageText": "=### \"{{ $('PrepareQuizData').item.json.quiz_name }}\" {{ $('Code in JavaScript').item.json.t.test-created }}\n{{ $('Code in JavaScript').item.json.t.form_link }} -  {{ $('Create Form').item.json.responderUri }}\\\n\\\n{{ $('Code in JavaScript').item.json.t.spreadsheet_link }} - {{ $('Create Responses Spreadsheet').item.json.spreadsheetUrl }}",
+        "richMessageText": "=### \"{{ $('PrepareQuizData').item.json.quiz_name }}\" {{ $('Code in JavaScript').item.json.t.test_created }}\n{{ $('Code in JavaScript').item.json.t.form_link }} -  {{ $('Create Form').item.json.responderUri }}\\\n\\\n{{ $('Code in JavaScript').item.json.t.spreadsheet_link }} - {{ $('Create Responses Spreadsheet').item.json.spreadsheetUrl }}",
         "additionalFields": {}
       },
       "type": "n8n-nodes-base.telegram",
@@ -1439,7 +1439,7 @@
     "callerPolicy": "workflowsFromSameOwner",
     "availableInMCP": false
   },
-  "versionId": "7fb083cc-1599-4b32-a44a-3eedc0431cdb",
+  "versionId": "43cfcffa-3622-40c6-82fa-6b5e40b0c170",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "92115584ea186c1fd08add997c6d2f83e16166b1a9b3936c309604d9d7e03e6a"
